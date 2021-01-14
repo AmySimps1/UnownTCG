@@ -20,11 +20,11 @@ const app = express(); //connects app with express
 const Product = require('./models/product');
 
 const methodOverride = require('method-override');
-// const express = require('');
-// const express = require('');
-// const express = require('');
-// const express = require('');
-// const express = require('');
+// const = require('');
+// const = require('');
+// const = require('');
+// const = require('');
+// const = require('');
 
 //Able to negate the '.ejs' in file name
 app.set('view engine', 'ejs');
@@ -90,3 +90,24 @@ app.delete('/products/:id', async (req, res) => {
 app.listen(3000, () => {
 	console.log('servers has started');
 })
+
+
+/*Possilbe Dependencies Needed 
+  
+    "@mapbox/mapbox-sdk": "^0.11.0",
+    "cloudinary": "^1.23.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
+    "ejs-mate": "^3.0.0",
+    "express-mongo-sanitize": "^2.0.0",
+    "express-session": "^1.17.1",
+    "helmet": "^4.1.1",
+    "joi": "^17.2.1",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1",
+    "sanitize-html": "^1.27.4"
+	
+*/
