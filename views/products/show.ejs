@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Show</title>
+</head>
+<body>
+	<h1> <%= product.title %> </h1>
+	<h2> <%= product.price %> </h2>
+	<footer>
+	
+		<a href='/products'>All Products</a>
+		<a href='/products/<%= product._id %>/edit'>Edit</a>
+		<form action='/products/<%= product._id %>?_method=DELETE' method='POST'>
+			<button>
+				Delete
+			</button>
+		</form>
+	</footer>
+</body>
+</html>
