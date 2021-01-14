@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
 //connecting to Mongoose Cloud DB 
-mongoose.connect('mongodb+srv://UnownTCG:'+process.env.DB_PASSWORD+'@cluster0.ppbyu.mongodb.net/UnownTCG?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://UnownTCG:${process.env.DB_PASSWORD}@cluster0.ppbyu.mongodb.net/UnownTCG?retryWrites=true&w=majority`, {
 	useNewUrlParser: true, 
 	useUnifiedTopology: true, 
 	useCreateIndex: true
