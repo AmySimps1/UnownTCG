@@ -1,6 +1,7 @@
 .git
+cloudinary
+controllers
 node_modules
 .env
+app2.js
 package-lock.json
-
-#middleware.js
