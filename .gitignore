@@ -1,7 +1,8 @@
 .git
-cloudinary
-controllers
+
 node_modules
 .env
-app2.js
+
 package-lock.json
+views/products/show1.ejs
+views/products/new2.ejs

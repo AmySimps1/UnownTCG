@@ -1,7 +1,8 @@
-const { productSchema, reviewSchema } = require('./schemas.js'),
-						 ExpressError = require('./utils/ExpressError'),
-						      Product = require('./models/product'),
-							   Review = require('./models/review');
+const { productSchema, reviewSchema } = require('./schemas.js');
+const ExpressError = require('./utils/ExpressError');
+const Product = require('./models/product');
+const Review = require('./models/review');
+
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
