@@ -1,22 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	<title>Products</title>
-</head>
-<body>
-	<h1>
-		All Products
-	</h1>
-	<div>
-		<a href='/products/new'>Add New Product</a>
-	</div>
-	<ul>
-		<% for (let product of products) {%>
-		<li><a href='/products/<%= product._id %>'><%= product.title %></a></li>
-		<% }%>
-	</ul>
+<% layout('layouts/boilerplate')%>
 
-</body>
-</html>
+<section style="background-image: url('https://res.cloudinary.com/unowntcg/image/upload/v1612300725/UnownTCG/pokemonbanner_lhugub.jpg');">
+	<div id="hero" class="shopify-section index-section index-section--flush">
+		<div data-section-id="hero-1" data-section-type="hero-section">
+			<div class="hero hero--small hero-hero-1 hero__overlay box ratio-container js lazyloaded" id="Hero-hero-1" data-layout="full_width" data-bg="//cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_300x300.jpg?v=1609264121" data-bgset="//cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_180x.jpg?v=1609264121 180w 39h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_360x.jpg?v=1609264121 360w 79h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_540x.jpg?v=1609264121 540w 118h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_720x.jpg?v=1609264121 720w 157h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_900x.jpg?v=1609264121 900w 196h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_1080x.jpg?v=1609264121 1080w 236h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_1296x.jpg?v=1609264121 1296w 283h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_1512x.jpg?v=1609264121 1512w 330h,
+    //cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd.jpg?v=1609264121 1562w 341h" data-parent-fit="cover" style="background-position: center top; background-image: url(&quot;https://cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd.jpg?v=1609264121&quot;);" alt="" src="//cdn.shopify.com/s/files/1/0524/7841/0950/files/pokemonbanner_7526d83d-5408-4d46-9af0-8de9e553e5cd_300x300.jpg?v=1609264121">
+				<div class="hero__inner">
+					<div class="page-width text-center">
+						<h2 class="h1 mega-title mega-title--large">Pokémon Unown Center</h2>
+						<div class="rte-setting mega-subtitle mega-subtitle--large">
+							<p>Entering the World of Pokémon</p>
+						</div>
+						<a href="/products" class="btn hero__btn" aria-label="Products: Catalog">Products</a>
+					</div>
+				</div>
+    
+				<picture style="display: none;">
+					<source data-srcset="" sizes="1898px" srcset="">
+					<img alt="" class="lazyautosizes lazyloaded" data-sizes="auto" data-parent-fit="cover" sizes="1898px">
+				</picture>
+			</div>
+			
+				<!-- <div class="hero hero--small hero__overlay" style="background-image: url('https://res.cloudinary.com/unowntcg/image/upload/v1612300725/UnownTCG/pokemonbanner_lhugub.jpg'); background-position: center top;"> -->
+		</div>
+	</div>
+</section>
+
+<section class="products">
+	<div id="cluster-map"></div>
+	<div class="container">
+		<h1>Featured Products</h1>
+		<% for (let product of products) { %>
+		<div class="card mb-3">
+			<div class="row">
+				<div class="col-md-4">
+					<% if(product.images.length) { %>
+					<img class="img-fluid" alt="" src="<%=product.images[0].url%>">
+					<% } else { %>
+					<img class="img-fluid" alt=""
+						src="https://res.cloudinary.com/unowntcg/image/upload/v1611691542/UnownTCG/rt1gqzcl8tuvcozpyezc.png"
+						 >
+					<% } %>
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title"><%= product.title %> </h5>
+						<p class="card-text"><%= product.description %></p>
+						<a class="btn btn-primary" href="/products/<%=product._id%>">View More Details</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% } %>
+	</div>
+</section>
+
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const products = { features: <%- JSON.stringify(products) %>}
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>

@@ -1,0 +1,149 @@
+<!-- <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">UnownTCG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/products/new">New Product</a>
+            </div>
+			
+            <div class="navbar-nav ml-auto">
+                < if(!currentUser) { %>
+                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/register">Register</a>
+                < } else { %>
+                <a class="nav-link" href="/logout">Logout</a>
+                < } %>
+            </div>
+        </div>
+    </div>
+</nav> -->
+
+<div class="announcement-bar" role="region" aria-label="Announcement" >
+	<p class="announcement-bar__message" style="font-family: 'Akko', sans-serif;" >Welcome! Pokémon Trainer</p>
+</div>
+
+
+
+<div class="grid grid--no-gutters grid--table site-header__mobile-nav">
+	<div class="grid__item medium-up--one-quarter logo-align--left">
+		<h1 class="h2 site-header__logo">
+			<a href="https://unowntcg.com/" class="site-header__logo-image">
+				<img class="js lazyautosizes lazyloaded" src="https://res.cloudinary.com/unowntcg/image/upload/v1612289819/UnownTCG/UnownLogoWithName_mv19k1.png" alt="UnownTCG" style="max-width: 185px">
+			</a>
+		</h1>
+	</div>
+	
+	<nav class="grid__item medium-up--one-half small--hide" id="AccessibleNav" role="navigation">
+		<ul class="site-nav list--inline" id="SiteNav">
+      
+			<li class="site-nav--active">
+				<a href="/" class="site-nav__link site-nav__link--main site-nav__link--active" aria-current="page">
+					<span class="site-nav__label">Home</span>
+				</a>
+			</li>
+			
+			<li>
+				<a href="/products" class="site-nav__link site-nav__link--main">
+					<span class="site-nav__label">Store</span>
+				</a>
+			</li>
+
+			<li>
+				<a href="https://www.instagram.com/unown_tcg/" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message" target="_blank">
+					<span class="site-nav__label">Instagram</span>
+				</a>
+			</li>
+
+			<li>
+				<a href="https://www.ebay.com/usr/un-856" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message" target="_blank">
+					<span class="site-nav__label">eBay</span>
+				</a>
+			</li>
+      
+      
+			<li>
+				<a href="https://www.facebook.com/marketplace/item/776367159925909/" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message" target="_blank">
+					<span class="site-nav__label">Facebook</span>
+				</a>
+			</li>
+      
+
+        <% if(!currentUser) { %>
+
+			<li>
+				<a href="/login" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message">
+					<span class="site-nav__label">Login</span>
+				</a>
+			</li>
+			
+
+			<li>
+				<a href="/register" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message">
+					<span class="site-nav__label">Register</span>
+				</a>
+			</li>
+			
+        <% } else { %>	
+			
+			<li>
+				<a href="/logout" class="site-nav__link site-nav__link--main" aria-describedby="a11y-external-message">
+					<span class="site-nav__label">Logout</span>
+				</a>
+			</li>
+			
+        <% } %>
+			
+		</ul>
+	</nav>
+	
+	<div class="grid__item medium-up--one-quarter text-right site-header__icons">
+		<div class="site-header__icons-wrapper">	
+			<a href="/products" class="site-header__icon site-header__cart">
+				<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-cart" viewBox="0 0 37 40"><path d="M36.5 34.8L33.3 8h-5.9C26.7 3.9 23 .8 18.5.8S10.3 3.9 9.6 8H3.7L.5 34.8c-.2 1.5.4 2.4.9 3 .5.5 1.4 1.2 3.1 1.2h28c1.3 0 2.4-.4 3.1-1.3.7-.7 1-1.8.9-2.9zm-18-30c2.2 0 4.1 1.4 4.7 3.2h-9.5c.7-1.9 2.6-3.2 4.8-3.2zM4.5 35l2.8-23h2.2v3c0 1.1.9 2 2 2s2-.9 2-2v-3h10v3c0 1.1.9 2 2 2s2-.9 2-2v-3h2.2l2.8 23h-28z"></path></svg>
+				<span class="icon__fallback-text">Cart</span>
+				<div id="CartCount" class="site-header__cart-count hide critical-hidden" data-cart-count-bubble="">
+					<span data-cart-count="">0</span>
+					<span class="icon__fallback-text medium-up--hide">items</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+<!-- 
+
+<nav class="mobile-nav-wrapper medium-up--hide critical-hidden" role="navigation">
+	<ul id="MobileNav" class="mobile-nav">
+		<li class="mobile-nav__item border-bottom">
+			<a href="/" class="mobile-nav__link mobile-nav__link--active" aria-current="page">
+				<span class="mobile-nav__label">Home</span>
+			</a>
+		</li>
+		
+		<li class="mobile-nav__item border-bottom">
+			<a href="/products" class="mobile-nav__link">
+				<span class="mobile-nav__label">Store</span>
+			</a>
+		</li>
+		
+		<li class="mobile-nav__item border-bottom">
+			<a href="https://www.instagram.com/unown_tcg/" class="mobile-nav__link" aria-describedby="a11y-external-message">
+				<span class="mobile-nav__label">Instagram</span>
+			</a>
+		</li>
+		
+		<li class="mobile-nav__item">
+			<a href="https://www.ebay.com/usr/un-856" class="mobile-nav__link" aria-describedby="a11y-external-message">
+				<span class="mobile-nav__label">eBay</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+ -->

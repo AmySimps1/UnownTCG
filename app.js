@@ -1,113 +1,161 @@
-//connects express
-const express = require('express'); 
-const path = require('path'); 
-const mongoose = require('mongoose');
 //hides sensitive material/code
-const dotenv = require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
+const express 		= require('express'); 
+const path 			= require('path'); 
+const mongoose 		= require('mongoose');
+const ejsMate 		= require('ejs-mate');
+const session 		= require('express-session');
+const ExpressError  = require('./utils/ExpressError');
+const methodOverride = require('method-override');
+const passport  	= require('passport');
+const LocalStrategy = require('passport-local');
+//connects app with express
+const User = require('./models/user');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const userRoutes 	= require('./routes/users');
+const productRoutes = require('./routes/products');
+const reviewRoutes  = require('./routes/reviews');
+
+//Not added yet
+// const Product = require('./models/product');
+// const Review = require('./models/review');
+const MongoDBStore = require("connect-mongo")(session);
+
+const dbUrl = `mongodb+srv://UnownTCG:${process.env.DB_PASSWORD}@cluster0.ppbyu.mongodb.net/UnownTCG?retryWrites=true&w=majority`;
 
 //connecting to Mongoose Cloud DB 
-mongoose.connect(`mongodb+srv://UnownTCG:${process.env.DB_PASSWORD}@cluster0.ppbyu.mongodb.net/UnownTCG?retryWrites=true&w=majority`, {
+mongoose.connect(dbUrl, {
 	useNewUrlParser: true, 
 	useUnifiedTopology: true, 
-	useCreateIndex: true
-	//useFindAndModify: false
+	useCreateIndex: true,
+	useFindAndModify: false
 }).then(() => {
-	console.log('connected to DB');
+	console.log('Connected to DB');
 }).catch(err => {
 	console.log('ERROR:', err.message);
 }); 
-const app = express(); //connects app with express
-const Product = require('./models/product');
 
-const methodOverride = require('method-override');
-// const = require('');
-// const = require('');
-// const = require('');
-// const = require('');
-// const = require('');
-
+const app = express();	
+//used to transfer over header, nav, footer on each page 
+app.engine('ejs', ejsMate)	
 //Able to negate the '.ejs' in file name
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs');	
+app.set('views', path.join(__dirname, 'views'))	
+app.use(express.urlencoded({ extended: true }));	
+app.use(methodOverride('_method'));	
+app.use(express.static(path.join(__dirname, 'public')))	
+app.use(mongoSanitize({	
+    replaceWith: '_'	
+}))	
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';	
+const store = new MongoDBStore({	
+    url: dbUrl,	
+    secret,	
+    touchAfter: 24 * 60 * 60	
+});	
+store.on("error", function (e) {	
+    console.log("SESSION STORE ERROR", e)	
+})	
+const sessionConfig = {	
+    store,	
+    name: 'session',	
+    secret,	
+    resave: false,	
+    saveUninitialized: true,	
+    cookie: {	
+        httpOnly: true,	
+        // secure: true,	
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,	
+        maxAge: 1000 * 60 * 60 * 24 * 7	
+    }	
+};
 
-app.use(express.urlencoded({extended:true}));
-app.use(methodOverride('_method'));
+app.use(session(sessionConfig));
+
+const scriptSrcUrls = [	
+    "https://stackpath.bootstrapcdn.com",	
+    "https://api.tiles.mapbox.com",	
+    "https://api.mapbox.com",	
+    "https://kit.fontawesome.com",	
+    "https://cdnjs.cloudflare.com",	
+    "https://cdn.jsdelivr.net",	
+];	
+const styleSrcUrls = [	
+    "https://kit-free.fontawesome.com",	
+    "https://stackpath.bootstrapcdn.com",	
+    "https://api.mapbox.com",	
+    "https://api.tiles.mapbox.com",	
+    "https://fonts.googleapis.com",	
+    "https://use.fontawesome.com",	
+];	
+const connectSrcUrls = [	
+    "https://api.mapbox.com",	
+    "https://*.tiles.mapbox.com",	
+    "https://events.mapbox.com",	
+];	
+const fontSrcUrls = [];	
+app.use(	
+    helmet.contentSecurityPolicy({	
+        directives: {	
+            defaultSrc: [],	
+            connectSrc: ["'self'", ...connectSrcUrls],	
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],	
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],	
+            workerSrc: ["'self'", "blob:"],	
+            childSrc: ["blob:"],	
+            objectSrc: [],	
+            imgSrc: [	
+                "'self'",	
+                "blob:",	
+                "data:",	
+                "https://res.cloudinary.com/unowntcg/",	
+                "https://images.unsplash.com",	
+            ],	
+            fontSrc: ["'self'", ...fontSrcUrls],	
+        },	
+    })	
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+//store
+passport.serializeUser(User.serializeUser());
+//unstore
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+	res.locals.currentUser = req.user;
+	next();
+})
+
+app.use('/', userRoutes);
+app.use('/products', productRoutes);
+app.use('/products/:id/reviews', reviewRoutes)
 
 //Gets and renders the home page
 app.get('/', (req, res) => {
 	res.render('home');
 });
 
-app.get('/products', async (req, res) => {
-	const products = await Product.find({});
-	res.render('products/index', { products });
+app.all('*', (req, res, next) => {
+	next(new ExpressError('Page Not Found', 404));	
 });
 
-app.get('/products/new', async (req, res) => {
-	
-	res.render('products/new');
+app.use((err, req, res, next) => {
+	const { statusCode = 500} = err;
+	if(!err.message) err.message = 'Something Went Wrong'
+	res.status(statusCode).render('error', { err });
 });
-
-app.post('/products', async (req, res) => {
-	const product = new Product(req.body.product);
-	await product.save();
-	res.redirect(`/products/${product._id}`)
-});
-
-app.get('/products/:id', async (req, res) => {
-	const product = await Product.findById(req.params.id);
-	res.render('products/show', { product });
-});
-
-
-app.get('/products/:id/edit', async (req, res) => {
-	const product = await Product.findById(req.params.id);
-	res.render('products/edit', { product });
-});
-
-app.put('/products/:id', async (req, res) => {
-	const { id } =req.params;
-	const product = await Product.findByIdAndUpdate(id, { ...req.body.product });
-	res.redirect(`/products/${product._id}`)
-});
-
-app.delete('/products/:id', async (req, res) => {
-	const { id } =req.params;
-	await Product.findByIdAndDelete(id);
-	res.redirect(`/products`)
-});
-
-
-//Testing DB
-// app.get('/product', async(req, res) => {
-// 	const product = new Product({ title: 'Pokemon Assorted Cards', price: '14.99', description: 'new' });
-// 	await product.save();
-// 	res.send(product);
-// })
-	
 
 //Connects to the server
-app.listen(3000, () => {
-	console.log('servers has started');
-})
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
 
-
-/*Possilbe Dependencies Needed 
-  
-    "@mapbox/mapbox-sdk": "^0.11.0",
-    "cloudinary": "^1.23.0",
-    "connect-flash": "^0.1.1",
-    "connect-mongo": "^3.2.0",
-    "ejs-mate": "^3.0.0",
-    "express-mongo-sanitize": "^2.0.0",
-    "express-session": "^1.17.1",
-    "helmet": "^4.1.1",
-    "joi": "^17.2.1",
-    "multer": "^1.4.2",
-    "multer-storage-cloudinary": "^4.0.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1",
-    "sanitize-html": "^1.27.4"
-	
-*/
+app.listen(port, host, function(){
+  console.log(`Server started...on port ${port}`);
+});

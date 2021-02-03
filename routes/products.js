@@ -1,63 +1,28 @@
 const express = require('express');
 const router = express.Router();
-//const { productSchema } = require('../schemas.js');
-const { isLoggedIn, isAuthor, validateProduct } = require('../middleware');
+const products = require('../controllers/products');
 const catchAsync = require('../utils/catchAsync');
-// const multer = require('multer');
-// const { storage } = require('../cloudinary');
-// const upload = multer({ storage });
+const { isLoggedIn, isAuthor, validateProduct } = require('../middleware');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
+
 const Product = require('../models/product');
-const Review = require('../models/review');
 
-router.get('/', async (req, res) => {
-	const products = await Product.find({});
-	res.render('products/index', { products });
-});
+router.route('/')
+    .get(catchAsync(products.index))
+    .post(isLoggedIn, upload.array('image'), validateProduct, catchAsync(products.createProduct))
 
-router.post('/', isLoggedIn, validateProduct, catchAsync(async (req, res, next) => {
-	const product = new Product(req.body.product);
-	product.author = req.user._id;
-	await product.save();
-	res.redirect(`/products/${product._id}`)
-}));
 
-router.get('/new', isLoggedIn, async (req, res) => {
-	res.render('products/new');
-});
+router.get('/new', isLoggedIn, products.renderNewForm)
 
-router.get('/:id', catchAsync(async (req, res) => {
-	const product = await Product.findById(req.params.id).populate({
-		path:'reviews',
-		populate:{
-			path:'author'
-		}
-	}).populate('author');
-	res.render('products/show', { product });
-}));
+router.route('/:id')
+    .get(catchAsync(products.showProduct))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateProduct, catchAsync(products.updateProduct))
+    .delete(isLoggedIn, isAuthor, catchAsync(products.deleteProduct));
 
-router.put('/:id', isLoggedIn, isAuthor, validateProduct, catchAsync(async (req, res) => {
-	const { id } = req.params;
-	const product = await Product.findByIdAndUpdate(id, { ...req.body.product });
-	res.redirect(`/products/${product._id}`)
-}));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(products.renderEditForm))
 
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-	const { id } = req.params;
-	// const product = await Product.findById(id);
-	// if(!product.author.equals(req.user._id)){
-	// 	return res.redirect(`/products/${id}`)
-	// }
-	await Product.findByIdAndDelete(id);
-	res.redirect(`/products`)
-}));
 
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-	const { id } = req.params; 
-	const product = await Product.findById(id);
-	if(!product){
-		return res.redirect('/products')
-		}
-	res.render('products/edit', { product });
-}));
 
 module.exports = router;
