@@ -28,10 +28,10 @@ const ProductSchema = new Schema({
     //     }
     // },
     price: Number,
-    description: String,
-	// start new
+    // start new
 	quantity: Number,
 	// end new
+	description: String,
     // location: String,
     author: {
         type: Schema.Types.ObjectId,
