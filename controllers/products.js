@@ -1,7 +1,7 @@
 const Product = require('../models/product');
-const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+// const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+// const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
 
 
@@ -15,12 +15,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createProduct = async (req, res, next) => {
-    const geoData = await geocoder.forwardGeocode({
-        query: req.body.product.location,
-        limit: 1
-    }).send()
+    // const geoData = await geocoder.forwardGeocode({
+    //     query: req.body.product.location,
+    //     limit: 1
+    // }).send()
     const product = new Product(req.body.product);
-    product.geometry = geoData.body.features[0].geometry;
+    // product.geometry = geoData.body.features[0].geometry;
     product.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     product.author = req.user._id;
     await product.save();
