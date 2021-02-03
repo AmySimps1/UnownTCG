@@ -4,42 +4,64 @@
     <div class="row">
         <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
             <div class="card shadow">
-                <img src="https://res.cloudinary.com/unowntcg/image/upload/v1611691168/UnownTCG/dk9vrsns6q9cwsx7lv0d.jpg"
-                    alt="" class="card-img-top" />
-                <div class="card-body">
+                <img src="https://res.cloudinary.com/unowntcg/image/upload/v1611691542/UnownTCG/rt1gqzcl8tuvcozpyezc.png"
+                    alt="" class="card-img-top">
+				<div class="card-body">
                     <h5 class="card-title">Register</h5>
                     <form action="/register" method="POST" class="validated-form" novalidate>
                         <div class="mb-3">
                             <label class="form-label" for="username">Username</label>
-                            <input class="form-control" type="text" id="username" name="username" pattern="[A-Za-z0-9]+" title="Letters and numbers only, no punctuation or special characters" aria-label="Username" describedby="basic-addon1" required autofocus>
-                            <div class="valid-feedback">
-                                Looks good!
+                             <input class="form-control" type="text" id="username" name="username" placeholder="PokemonLover7" pattern="[A-Za-z0-9]+" title="Letters and numbers only, no punctuation or special characters"  autofocus required /><!--aria-label="Username" describedby="basic-addon1"-->
+							<div class="valid-feedback">
+								<span>&#10003;</span>
+							</div>
+                            <div class="invalid-feedback">
+                                Letters and numbers only, no punctuation or special characters
                             </div>
                         </div>
-																		
                         <div class="mb-3">
                             <label class="form-label" for="email">Email</label>
-                            <input class="form-control" type="email" id="email" name="email" required>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Pikachu7@gmail.com" required />
                             <div class="valid-feedback">
-                                Looks good!
+                                <span>&#10003;</span>
+                            </div>
+							<div class="invalid-feedback">
+                                Must be email format
                             </div>
                         </div>
-						
+						<div class="mb-3">
+                            <label class="form-label" for="address">Address</label>
+                            <input class="form-control" type="text" id="address" name="address" placeholder="123 Main st. Apt #45, San Jose 95113" required />
+                            <div class="valid-feedback">
+                                For ordering on our website
+                            </div>
+							<div class="invalid-feedback">
+                                Required to order on our website
+                            </div>
+                        </div>
+						<div class="mb-3">
+                            <label class="form-label" for="phone">Phone</label>
+                            <input class="form-control" type="tel" id="phone" name="phone" placeholder="123-456-7890 (Optional)" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+                            <div class="valid-feedback">
+								<span>&#10003;</span>
+                            </div>
+							<div class="invalid-feedback">
+                                123-456-7890
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label" for="password">Password</label>
-                            <!-- OLD  <input class="form-control" type="password" id="password" name="password" required>
-							 -->
-							<input class="form-control" type="password" id="password" name="password" placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Must contain at least one number, one special character, one uppercase, one lowercase letter and at least 8 or more characters" required>
+							<input class="form-control" type="password" id="password" name="password" placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Must contain at least one number, one special character, one uppercase, one lowercase letter and at least 8 or more characters" required />
                             <div class="valid-feedback">
-                                Looks good!
+                                <span>&#10003;</span>
                             </div>
+							<div class="invalid-feedback">
+                                Must contain at least one number, one special character, one uppercase, one lowercase letter and at least 8 or more characters
+							</div>
                         </div>
-						
-						
-                        <button class="btn btn-success btn-block">Register</button>
+						<button class="btn btn-success btn-block">Register</button>
                     </form>
-            <a class="return-button" href="/products">Go Back</a>
-
+					<a class="return-button" href="/products">Go Back</a>
                 </div>
             </div>
         </div>

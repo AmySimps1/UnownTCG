@@ -6,9 +6,11 @@ module.exports.renderRegister = (req, res) => {
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { email, username, password } = req.body;
-        const user = new User({ email, username });
+		//start new
+        const { email, username, password, address, phone } = req.body;
+        const user = new User({ email, username, address, phone });
         const registeredUser = await User.register(user, password);
+		//end new
         req.login(registeredUser, err => {
             if (err) return next(err);
             res.redirect('/products');

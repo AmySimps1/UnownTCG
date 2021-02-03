@@ -2,7 +2,11 @@
 
 node_modules
 .env
-
 package-lock.json
+
+routes/1products.js
+routes/1reviews.js
+routes/1users.js
+
 views/products/show1.ejs
 views/products/new2.ejs
