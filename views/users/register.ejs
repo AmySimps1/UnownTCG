@@ -12,23 +12,31 @@
                         <div class="mb-3">
                             <label class="form-label" for="username">Username</label>
                              <input class="form-control" type="text" id="username" name="username" placeholder="PokemonLover7" pattern="[A-Za-z0-9]+" title="Letters and numbers only, no punctuation or special characters"  autofocus required /><!--aria-label="Username" describedby="basic-addon1"-->
-							<div class="valid-feedback">
+							<!-- <div class="valid-feedback">
 								<span>&#10003;</span>
-							</div>
+							</div> -->
                             <div class="invalid-feedback">
                                 Letters and numbers only, no punctuation or special characters
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="email">Email</label>
-                            <input class="form-control" type="email" id="email" name="email" placeholder="Pikachu7@gmail.com" required />
+						<!-- <div class="mb-3">
+                            <label class="form-label" for="fullName">Full Name</label>
+                            <input class="form-control" type="text" id="fullName" name="fullName" placeholder="" required />
                             <div class="valid-feedback">
                                 <span>&#10003;</span>
                             </div>
+                        </div> -->
+                        <div class="mb-3">
+                            <label class="form-label" for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Pikachu7@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+                            <!-- <div class="valid-feedback">
+                                <span>&#10003;</span>
+                            </div> -->
 							<div class="invalid-feedback">
-                                Must be email format
+                                E-mail Format
                             </div>
                         </div>
+						
 						<div class="mb-3">
                             <label class="form-label" for="address">Address</label>
                             <input class="form-control" type="text" id="address" name="address" placeholder="123 Main st. Apt #45, San Jose 95113" required />
@@ -39,12 +47,13 @@
                                 Required to order on our website
                             </div>
                         </div>
+						
 						<div class="mb-3">
                             <label class="form-label" for="phone">Phone</label>
                             <input class="form-control" type="tel" id="phone" name="phone" placeholder="123-456-7890 (Optional)" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
-                            <div class="valid-feedback">
+                            <!-- <div class="valid-feedback">
 								<span>&#10003;</span>
-                            </div>
+                            </div> -->
 							<div class="invalid-feedback">
                                 123-456-7890
                             </div>
@@ -52,13 +61,28 @@
                         <div class="mb-3">
                             <label class="form-label" for="password">Password</label>
 							<input class="form-control" type="password" id="password" name="password" placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Must contain at least one number, one special character, one uppercase, one lowercase letter and at least 8 or more characters" required />
-                            <div class="valid-feedback">
+                            <!-- <div class="valid-feedback">
                                 <span>&#10003;</span>
-                            </div>
+                            </div> -->
 							<div class="invalid-feedback">
                                 Must contain at least one number, one special character, one uppercase, one lowercase letter and at least 8 or more characters
 							</div>
                         </div>
+						<!-- <div class="mb-3">
+                            <label class="form-label" for="avatar">Avatar Url</label>
+                            <input class="form-control" type="text" id="avatar" name="avatar" placeholder="Url (Optional)" />
+                            <div class="valid-feedback">
+                                <span>&#10003;</span>
+                            </div>
+                        </div> -->
+
+						<!-- <div class="mb-3">
+                            <label class="form-label" for="adminCode">Admin Code</label>
+                            <input class="form-control" type="text" id="adminCode" name="adminCode" placeholder="For Admin Purposes" />
+                            <div class="valid-feedback">
+                                <span>&#10003;</span>
+                            </div>
+                        </div>  -->
 						<button class="btn btn-success btn-block">Register</button>
                     </form>
 					<a class="return-button" href="/products">Go Back</a>
