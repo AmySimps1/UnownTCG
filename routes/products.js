@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const products = require('../controllers/products');
-const catchAsync = require('../utils/catchAsync');
+const express		= require('express');
+const router 		= express.Router();
+const products 		= require('../controllers/products');
+const catchAsync 	= require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateProduct } = require('../middleware');
-const multer = require('multer');
-const { storage } = require('../cloudinary');
-const upload = multer({ storage });
+const multer 		= require('multer');
+const { storage } 	= require('../cloudinary');
+const upload 		= multer({ storage });
 
 const Product = require('../models/product');
 
@@ -22,7 +22,5 @@ router.route('/:id')
     .delete(isLoggedIn, isAuthor, catchAsync(products.deleteProduct));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(products.renderEditForm))
-
-
 
 module.exports = router;
