@@ -18,7 +18,10 @@ const UserSchema = new Schema({
 		type: String, //could import as String
 		required: false,
 		unique: true
-	}
+	},
+    // avatar: String,
+    // fullName: String,
+    // isAdmin: {type: Boolean, default: false}	
 // 	end new
 });
 

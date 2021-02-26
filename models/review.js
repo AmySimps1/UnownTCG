@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
     body: String,
+	// createdAt: { type: Date, default: Date.now }
     rating: Number,
     author: {
         type: Schema.Types.ObjectId,
