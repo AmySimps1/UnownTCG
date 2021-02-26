@@ -10,6 +10,9 @@ module.exports.register = async (req, res, next) => {
         const { email, username, password, address, phone } = req.body;
         const user = new User({ email, username, address, phone });
         const registeredUser = await User.register(user, password);
+		// if(req.body.adminCode === process.env.SECRET_ADMIN_CODE) {
+		// newUser.isAdmin = true;
+		// }	
 		//end new
         req.login(registeredUser, err => {
             if (err) return next(err);
@@ -32,6 +35,6 @@ module.exports.login = (req, res) => {
 
 module.exports.logout = (req, res) => {
     req.logout();
-    // req.session.destroy();
+    //req.session.destroy();
     res.redirect('/products');
 }
